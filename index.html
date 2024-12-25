@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluclap</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components/navbar.css">
+</head>
+<body>
+    <header>
+        <!-- Include Navbar HTML -->
+        <div id="navbar-container"></div>
+    </header>
+
+    <main>
+        <section id="shorts">
+            <h2>Shorts</h2>
+            <p>Welcome to the shorts section, where you can watch short videos just like YouTube Shorts.</p>
+        </section>
+
+        <section id="search">
+            <h2>Search</h2>
+            <p>Search for content on Bluclap.</p>
+        </section>
+
+        <section id="explore">
+            <h2>Explore</h2>
+            <p>Explore new content and categories on Bluclap.</p>
+        </section>
+
+        <section id="notifications">
+            <h2>Notifications</h2>
+            <p>Check your notifications here.</p>
+        </section>
+
+        <section id="profile">
+            <h2>Profile</h2>
+            <p>Manage your profile settings and information.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bluclap. All rights reserved.</p>
+    </footer>
+
+    <script src="components/navbar.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load the navbar HTML into the navbar-container div
+        fetch('components/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+    </script>
+</body>
+</html>

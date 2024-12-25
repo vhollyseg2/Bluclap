@@ -1,0 +1,33 @@
+/* Reset some basic elements */
+body, h1, h2, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main content styling */
+main {
+    flex: 1;
+    padding: 2rem;
+    padding-bottom: 4rem; /* Adjust for navbar height */
+}
+
+main section {
+    margin-bottom: 2rem;
+}
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
