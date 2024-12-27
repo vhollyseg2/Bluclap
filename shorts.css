@@ -19,13 +19,13 @@ body, html {
 
 video {
     width: 100%;
-    height: calc(100vh - 50px); /* Adjusted value to match the navbar height */
+    height: calc(100vh - 60px); /* Adjusted value to match the increased navbar height */
     object-fit: contain; /* Ensure the video is not zoomed in */
 }
 
 .video-details {
     position: absolute;
-    bottom: 60px; /* Position above navbar */
+    bottom: 70px; /* Position above navbar */
     left: 10px;
     color: white;
     display: flex;
