@@ -1,3 +1,10 @@
+/* Reset any default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Navbar styling */
 .bottom-navbar {
     position: fixed;
@@ -7,7 +14,7 @@
     color: black;
     display: flex;
     justify-content: space-around;
-    padding: 0.1rem 0;  /* Reduced padding */
+    padding: 0.5rem 0;  /* Adjusted padding */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;  /* Ensure navbar appears above all elements */
 }
@@ -17,8 +24,6 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 .bottom-navbar ul li {
@@ -32,7 +37,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0.1rem 0;  /* Reduced padding */
+    padding: 0.5rem 0;  /* Adjusted padding */
     transition: background-color 0.3s;
 }
 
@@ -43,12 +48,12 @@
 .bottom-navbar ul li a img {
     width: 24px;
     height: 24px;
-    margin-bottom: 0.1rem;  /* Small margin below the icon */
+    margin-bottom: 0.25rem;  /* Adjusted margin below the icon */
 }
 
 .bottom-navbar ul li a span {
-    font-size: 0.75rem;
-    margin-top: 0.1rem;  /* Reduced margin above the text */
+    font-size: 0.85rem;
+    margin-top: 0.25rem;  /* Adjusted margin above the text */
 }
 
 /* Responsive adjustments */

@@ -20,7 +20,7 @@ body, html {
 video {
     width: 100%;
     height: calc(100vh - 50px); /* Adjusted value to match the navbar height */
-    object-fit: contain; /* Adjusted to ensure the video is not zoomed in */
+    object-fit: contain; /* Ensure the video is not zoomed in */
 }
 
 .video-details {
@@ -29,13 +29,14 @@ video {
     left: 10px;
     color: white;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 .publisher-details {
     display: flex;
     align-items: center;
+    margin-bottom: 10px; /* Add some space below the publisher details */
 }
 
 .publisher-profile {
@@ -45,21 +46,18 @@ video {
     margin-right: 10px;
 }
 
-.publisher-info {
-    display: flex;
-    flex-direction: column;
-}
-
 .publisher-name {
     font-weight: bold;
+    font-size: 1.2rem; /* Increased font size */
 }
 
 .video-description {
-    font-size: 14px;
+    font-size: 1rem; /* Increased font size */
+    margin-bottom: 10px; /* Add some space below the video description */
 }
 
 .use-sound {
-    font-size: 12px;
+    font-size: 0.9rem; /* Increased font size */
     color: #00f;
     cursor: pointer;
     background-color: transparent;
