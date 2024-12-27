@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const useSoundButton = document.getElementById('use-sound');
 
   // Ensure the video plays automatically
-  video.play();
+  video.play().catch(error => {
+    console.error('Video failed to play automatically:', error);
+  });
 
   // Toggle sound on button click
   useSoundButton.addEventListener('click', () => {
