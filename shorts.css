@@ -4,6 +4,8 @@ body, html {
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: black; /* Change background color to black */
+    color: white; /* Ensure text is readable on black background */
 }
 
 .video-container {
