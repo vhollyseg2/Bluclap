@@ -1,0 +1,71 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-container {
+    position: relative;
+    flex: 1; /* Take up remaining space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: calc(100vh - 50px); /* Adjusted value to match the navbar height */
+    object-fit: cover;
+}
+
+.video-details {
+    position: absolute;
+    bottom: 60px; /* Position above navbar */
+    left: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.publisher-details {
+    display: flex;
+    align-items: center;
+}
+
+.publisher-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.publisher-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.publisher-name {
+    font-weight: bold;
+}
+
+.video-description {
+    font-size: 14px;
+}
+
+.use-sound {
+    font-size: 12px;
+    color: #00f;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    text-align: left;
+}
+
+.use-sound:hover {
+    text-decoration: underline;
+}

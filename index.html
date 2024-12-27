@@ -3,56 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bluclap</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Shorts</title>
+    <link rel="stylesheet" href="shorts.css">
     <link rel="stylesheet" href="components/navbar.css">
 </head>
 <body>
-    <header>
-        <!-- Include Navbar HTML -->
-        <div id="navbar-container"></div>
-    </header>
+    <!-- Video Container -->
+    <div class="video-container">
+        <video id="short-video" src="/assets/v0f025gc0000csuvs4vog65vuv6sn1h0.mp4" autoplay muted playsinline loop></video>
+        <div class="video-details">
+            <div class="publisher-details">
+                <img src="path/to/publisher/profile.png" alt="Publisher Profile" class="publisher-profile">
+                <div class="publisher-info">
+                    <span class="publisher-name">Publisher Name</span>
+                    <span class="video-description">Video description goes here...</span>
+                    <button id="use-sound" class="use-sound">Use sound</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navbar -->
+    <nav class="bottom-navbar">
+        <ul>
+            <li><a href="#shorts"><img src="assets/shorts.png" alt="Shorts"><span>Shorts</span></a></li>
+            <li><a href="#search"><img src="assets/search.png" alt="Search"><span>Search</span></a></li>
+            <li><a href="#explore"><img src="assets/explore.png" alt="Explore"><span>Explore</span></a></li>
+            <li><a href="#notifications"><img src="assets/notification.png" alt="Notifications"><span>Notifications</span></a></li>
+            <li><a href="#profile"><img src="assets/profile.png" alt="Profile"><span>Profile</span></a></li>
+        </ul>
+    </nav>
 
-    <main>
-        <section id="shorts">
-            <h2>Shorts</h2>
-            <p>Welcome to the shorts section, where you can watch short videos just like YouTube Shorts.</p>
-        </section>
-
-        <section id="search">
-            <h2>Search</h2>
-            <p>Search for content on Bluclap.</p>
-        </section>
-
-        <section id="explore">
-            <h2>Explore</h2>
-            <p>Explore new content and categories on Bluclap.</p>
-        </section>
-
-        <section id="notifications">
-            <h2>Notifications</h2>
-            <p>Check your notifications here.</p>
-        </section>
-
-        <section id="profile">
-            <h2>Profile</h2>
-            <p>Manage your profile settings and information.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Bluclap. All rights reserved.</p>
-    </footer>
-
-    <script src="components/navbar.js"></script>
-    <script src="script.js"></script>
-    <script>
-        // Load the navbar HTML into the navbar-container div
-        fetch('components/navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-container').innerHTML = data;
-            });
-    </script>
+    <script src="shorts.js"></script>
 </body>
 </html>
