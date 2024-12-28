@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
       videoSrc: 'path/to/next/video.mp4',
       publisherProfile: 'path/to/next/publisher/profile.png',
       publisherName: 'Next Publisher Name',
-      videoDescription: 'Next video description goes here...',
+      videoDescription: 'Next video description goes here... ' +
+        'Next video description goes here... ' +
+        'Next video description goes here... ', // Example long description
       likeCount: Math.floor(Math.random() * 1000), // Example like count
       commentCount: Math.floor(Math.random() * 100) // Example comment count
     };
@@ -45,9 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
     publisherDetails.appendChild(publisherProfile);
     publisherDetails.appendChild(publisherName);
 
-    const videoDescription = document.createElement('span');
+    const videoDescription = document.createElement('div');
     videoDescription.className = 'video-description';
+    videoDescription.id = 'video-description';
     videoDescription.textContent = videoData.videoDescription;
+
+    const showMore = document.createElement('span');
+    showMore.className = 'show-more';
+    showMore.id = 'show-more';
+    showMore.textContent = 'Show more';
+    videoDescription.appendChild(showMore);
 
     const useSoundButton = document.createElement('button');
     useSoundButton.id = 'use-sound';
@@ -137,4 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Observe the initial video container
   const initialVideoContainer = document.getElementById('video-container');
   observer.observe(initialVideoContainer);
+
+  // Event listener to show full text on "Show more" click
+  document.addEventListener('click', function(event) {
+    if (event.target && event.target.id === 'show-more') {
+      const videoDescription = event.target.parentElement;
+      videoDescription.style.maxHeight = 'none';
+      event.target.style.display = 'none';
+    }
+  });
 });
