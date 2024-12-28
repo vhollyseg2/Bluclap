@@ -70,3 +70,31 @@ video {
 .use-sound:hover {
     text-decoration: underline;
 }
+
+/* Video actions styling */
+.video-actions {
+    position: absolute;
+    right: 10px;
+    bottom: 150px; /* Move up the action icons */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Space between action icons */
+    color: white;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.action-item i {
+    font-size: 28px; /* Increased icon size */
+}
+
+.action-count {
+    font-size: 1rem; /* Increased count text size */
+    margin-top: 5px; /* Space between icon and count */
+}
