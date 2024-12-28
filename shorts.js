@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
       videoSrc: 'path/to/next/video.mp4',
       publisherProfile: 'path/to/next/publisher/profile.png',
       publisherName: 'Next Publisher Name',
-      videoDescription: 'Next video description goes here...'
+      videoDescription: 'Next video description goes here...',
+      likeCount: Math.floor(Math.random() * 1000), // Example like count
+      commentCount: Math.floor(Math.random() * 100) // Example comment count
     };
 
     return nextVideoData;
@@ -24,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     videoElement.muted = true;
     videoElement.playsInline = true;
     videoElement.loop = true;
-    videoElement.style.width = '100%';
-    videoElement.style.height = 'calc(100vh - 60px)';
-    videoElement.style.objectFit = 'contain';
 
     const videoDetails = document.createElement('div');
     videoDetails.className = 'video-details';
@@ -59,8 +58,56 @@ document.addEventListener('DOMContentLoaded', () => {
     videoDetails.appendChild(videoDescription);
     videoDetails.appendChild(useSoundButton);
 
+    const videoActions = document.createElement('div');
+    videoActions.className = 'video-actions';
+
+    const likeAction = document.createElement('div');
+    likeAction.className = 'action-item';
+    const likeIcon = document.createElement('i');
+    likeIcon.className = 'fas fa-thumbs-up';
+    const likeCount = document.createElement('span');
+    likeCount.className = 'action-count';
+    likeCount.textContent = videoData.likeCount;
+    likeAction.appendChild(likeIcon);
+    likeAction.appendChild(likeCount);
+
+    const commentAction = document.createElement('div');
+    commentAction.className = 'action-item';
+    const commentIcon = document.createElement('i');
+    commentIcon.className = 'fas fa-comments';
+    const commentCount = document.createElement('span');
+    commentCount.className = 'action-count';
+    commentCount.textContent = videoData.commentCount;
+    commentAction.appendChild(commentIcon);
+    commentAction.appendChild(commentCount);
+
+    const favoriteAction = document.createElement('div');
+    favoriteAction.className = 'action-item';
+    const favoriteIcon = document.createElement('i');
+    favoriteIcon.className = 'fas fa-heart';
+    favoriteAction.appendChild(favoriteIcon);
+
+    const shareAction = document.createElement('div');
+    shareAction.className = 'action-item';
+    const shareIcon = document.createElement('i');
+    shareIcon.className = 'fas fa-share';
+    shareAction.appendChild(shareIcon);
+
+    const menuAction = document.createElement('div');
+    menuAction.className = 'action-item';
+    const menuIcon = document.createElement('i');
+    menuIcon.className = 'fas fa-ellipsis-v';
+    menuAction.appendChild(menuIcon);
+
+    videoActions.appendChild(likeAction);
+    videoActions.appendChild(commentAction);
+    videoActions.appendChild(favoriteAction);
+    videoActions.appendChild(shareAction);
+    videoActions.appendChild(menuAction);
+
     videoContainer.appendChild(videoElement);
     videoContainer.appendChild(videoDetails);
+    videoContainer.appendChild(videoActions);
 
     return videoContainer;
   }
