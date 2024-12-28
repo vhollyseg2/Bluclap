@@ -2,19 +2,20 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto; /* Make the body scrollable */
     background-color: black; /* Change background color to black */
     color: white; /* Ensure text is readable on black background */
+    scroll-snap-type: y mandatory; /* Enable scroll snapping */
 }
 
 .video-container {
     position: relative;
-    flex: 1; /* Take up remaining space */
+    height: 100vh; /* Each video container takes up the full viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    scroll-snap-align: start; /* Snap to the start of each video container */
 }
 
 video {
