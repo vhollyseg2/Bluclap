@@ -20,8 +20,8 @@ body, html {
 
 video {
     width: 100%;
-    height: calc(100vh - 60px); /* Adjusted value to match the increased fixed navbar height */
-    object-fit: contain; /* Ensure the video is not zoomed in */
+    height: 100vh; /* Fill the entire viewport height */
+    object-fit: cover; /* Ensure the video covers the entire area */
 }
 
 .video-details {
