@@ -44,8 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
     publisherName.className = 'publisher-name';
     publisherName.textContent = videoData.publisherName;
 
+    const followIcon = document.createElement('i');
+    followIcon.id = 'follow-icon';
+    followIcon.className = 'fas fa-plus follow-icon';
+    followIcon.addEventListener('click', toggleFollow);
+
     publisherDetails.appendChild(publisherProfile);
     publisherDetails.appendChild(publisherName);
+    publisherDetails.appendChild(followIcon);
 
     const videoDescription = document.createElement('div');
     videoDescription.className = 'video-description';
@@ -154,5 +160,28 @@ document.addEventListener('DOMContentLoaded', () => {
       videoDescription.style.maxHeight = 'none';
       event.target.style.display = 'none';
     }
+  });
+
+  // Function to toggle follow/unfollow
+  function toggleFollow(event) {
+    const icon = event.target;
+    if (icon.classList.contains('fa-plus')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-check');
+    } else {
+      icon.classList.remove('fa-check');
+      icon.classList.add('fa-plus');
+    }
+  }
+
+  // Initial setup for follow icon in the first video
+  const followIcon = document.getElementById('follow-icon');
+  followIcon.addEventListener('click', toggleFollow);
+
+  // Event listener for "Go to lives" button
+  const overlayButton = document.getElementById('overlay-button');
+  overlayButton.addEventListener('click', () => {
+    // Logic for handling "Go to lives" button click
+    alert('Go to lives clicked!');
   });
 });

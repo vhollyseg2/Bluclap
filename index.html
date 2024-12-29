@@ -9,14 +9,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CSS -->
 </head>
 <body>
+    <div id="overlay-button" class="overlay-button">Go to lives</div> <!-- Overlay button -->
     <div id="video-container" class="video-container">
-        <video id="short-video" src="/assets/RPReplay_Final1735430005.mp4" autoplay muted playsinline loop></video>
+        <video id="short-video" src="path/to/your/video.mp4" autoplay muted playsinline loop></video>
         <div class="video-details">
             <div class="publisher-details">
                 <img src="path/to/publisher/profile.png" alt="Publisher Profile" class="publisher-profile">
                 <span class="publisher-name">Publisher Name</span>
+                <i id="follow-icon" class="fas fa-plus follow-icon"></i> <!-- Follow icon -->
             </div>
-            <span class="video-description">Video descripcjfjnfnffnnfnf fbdbdndbb djdndjjdhd djdjdhdhbr djebdbdbr tion got djngbf  didjdjjjd d drjtjrjfjtjjttjdjdjdb     rijdhdb   djrjtj   didjjr   fjtjtj   d gjjcgj iffffbxb ejdjehh ejejejj   here...</span>
+            <div class="video-description" id="video-description">
+                Video description goes here... Video description goes here... Video description goes here...
+                <!-- Example long description -->
+                <span class="show-more" id="show-more">Show more</span>
+            </div>
             <button id="use-sound" class="use-sound">Use sound</button>
         </div>
         <div class="video-actions">
