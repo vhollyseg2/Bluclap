@@ -11,7 +11,9 @@
     max-height: 60px;  /* Set maximum height */
     padding: 0.3rem 0;  /* Increased padding */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000;  /* Ensure navbar appears above all elements */
+    z-index: 1000;  /* Ensure navbar appears 
+    
+    above all elements */
 }
 
 .bottom-navbar ul {
