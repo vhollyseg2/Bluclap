@@ -1,0 +1,56 @@
+/* Styling for the messages tab */
+.messages-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 60px); /* Adjust height to account for navbar */
+}
+
+.contacts-list {
+    width: 100%; /* Make contacts list full width */
+    overflow-y: auto;
+    background-color: transparent; /* Remove background color */
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensure time is on the right */
+    padding: 15px; /* Increased padding for better spacing */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact:hover,
+.contact.active {
+    background-color: #e9e9e9;
+}
+
+.contact img {
+    width: 50px; /* Increased image size */
+    height: 50px; /* Increased image size */
+    border-radius: 50%;
+    margin-right: 15px; /* Increased margin for better spacing */
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow contact info to take up available space */
+}
+
+.contact-name {
+    font-weight: bold;
+    font-size: 16px; /* Increased font size */
+}
+
+.contact-last-message {
+    color: #666; /* Darker color for better readability */
+    font-size: 14px; /* Increased font size */
+    margin-top: 5px; /* Added margin for better spacing */
+}
+
+.contact-time {
+    font-size: 14px; /* Increased font size for time */
+    color: #888; /* Color for time */
+    white-space: nowrap; /* Prevent time from wrapping */
+}

@@ -3,11 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages Content</title>
-    <link rel="stylesheet" href="../notifications.css">
+    <title>Messages</title>
+    <link rel="stylesheet" href="tab-messages.css">
 </head>
 <body>
-    <h1>Messages</h1>
-    <p>This is the messages tab content.</p>
+    <div class="messages-container">
+        <div class="contacts-list" id="contacts-list">
+            <div class="contact" onclick="loadChat('John Doe')">
+                <img src="../../assets/profile.png" alt="Profile Image">
+                <div class="contact-info">
+                    <span class="contact-name">John Doe</span>
+                    <span class="contact-last-message">Hello, how are you?</span>
+                </div>
+                <span class="contact-time">10:30 AM</span>
+            </div>
+            <div class="contact" onclick="loadChat('Jane Smith')">
+                <img src="../../assets/profile.png" alt="Profile Image">
+                <div class="contact-info">
+                    <span class="contact-name">Jane Smith</span>
+                    <span class="contact-last-message">Are we meeting today?</span>
+                </div>
+                <span class="contact-time">9:45 AM</span>
+            </div>
+            <!-- Add more contacts as needed -->
+        </div>
+        <div id="chat-area"></div>
+    </div>
+
+    <script src="tab-messages.js"></script>
 </body>
 </html>

@@ -1,0 +1,43 @@
+/* Styling for the notifications tab */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab-button {
+    padding: 14px 20px;
+    cursor: pointer;
+    background-color: transparent; /* Remove background color */
+    border: none;
+    outline: none;
+    font-size: 16px;
+    transition: border-bottom 0.3s;
+}
+
+.tab-button:hover {
+    border-bottom: 2px solid lightblue; /* Show light blue underline on hover */
+}
+
+.tab-button.active {
+    border-bottom: 2px solid blue; /* Blue underline for active button */
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 24px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+p {
+    padding: 10px;
+    font-size: 16px;
+}
