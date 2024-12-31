@@ -8,6 +8,10 @@
 </head>
 <body>
     <div class="messages-container">
+        <div class="search-bar">
+            <img src="../../assets/settings.png" alt="Settings" class="settings-icon">
+            <input type="text" id="search-input" placeholder="Search" onkeyup="filterContacts()">
+        </div>
         <div class="contacts-list" id="contacts-list">
             <div class="contact" onclick="loadChat('John Doe')">
                 <img src="../../assets/profile.png" alt="Profile Image">

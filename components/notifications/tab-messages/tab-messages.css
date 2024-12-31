@@ -1,12 +1,39 @@
 /* Styling for the messages tab */
 .messages-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: calc(100vh - 60px); /* Adjust height to account for navbar */
 }
 
+.search-bar {
+    padding: 5px 0; /* Reduced padding */
+    display: flex;
+    align-items: center; /* Center the items vertically */
+    justify-content: center; /* Center the search bar horizontally */
+}
+
+.settings-icon {
+    width: 24px; /* Set the size of the settings icon */
+    height: 24px; /* Set the size of the settings icon */
+    margin-right: 10px; /* Space between the icon and the input */
+    cursor: pointer; /* Change cursor to pointer for the icon */
+}
+
+.search-bar input {
+    width: 80%; /* Reduce the width of the search bar */
+    max-width: 400px; /* Set a maximum width */
+    height: 25px; /* Further reduce the height */
+    padding: 5px 10px; /* Adjust padding */
+    font-size: 14px; /* Adjust font size */
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    background-color: transparent; /* Remove background color */
+}
+
 .contacts-list {
-    width: 100%; /* Make contacts list full width */
+    flex-grow: 1;
     overflow-y: auto;
     background-color: transparent; /* Remove background color */
 }

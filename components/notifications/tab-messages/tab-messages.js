@@ -33,3 +33,20 @@ function loadChat(contactName) {
   // Optionally, you can hide the contacts list for a more focused chat view
   document.getElementById('contacts-list').style.display = 'none';
 }
+
+function filterContacts() {
+  var input, filter, contacts, contact, i, txtValue;
+  input = document.getElementById('search-input');
+  filter = input.value.toLowerCase();
+  contacts = document.getElementsByClassName('contact');
+
+  for (i = 0; i < contacts.length; i++) {
+    contact = contacts[i];
+    txtValue = contact.textContent || contact.innerText;
+    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+      contact.style.display = "";
+    } else {
+      contact.style.display = "none";
+    }
+  }
+}
