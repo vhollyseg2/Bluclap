@@ -11,13 +11,13 @@
     display: flex;
     align-items: center; /* Center the items vertically */
     justify-content: center; /* Center the search bar horizontally */
+    background: transparent; /* Remove background color */
 }
 
-.settings-icon {
-    width: 24px; /* Set the size of the settings icon */
-    height: 24px; /* Set the size of the settings icon */
+.menu-icon {
     margin-right: 10px; /* Space between the icon and the input */
     cursor: pointer; /* Change cursor to pointer for the icon */
+    font-size: 24px; /* Adjust icon size */
 }
 
 .search-bar input {
