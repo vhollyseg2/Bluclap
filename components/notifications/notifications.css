@@ -1,44 +1,56 @@
-/* Styling for the notifications container and tabs */
+/* Styling for the notifications container and top bar */
 .notifications-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
 
-.tabs {
+.top-bar {
     display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    border-bottom: none; /* Remove border-bottom */
-    background: transparent; /* Remove background color */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    position: fixed; /* Make the top bar fixed */
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure it stays on top */
 }
 
-.tab-button {
-    background: transparent; /* Remove background color */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+.menu-icon {
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+}
+
+#search-input {
+    width: 50%; /* Reduced width */
+    max-width: 300px; /* Set a maximum width */
+    height: 20px; /* Reduced height */
+    padding: 3px 5px; /* Reduced padding */
+    font-size: 12px; /* Adjusted font size */
+    border: 1px solid #ccc;
+    border-radius: 15px;
     outline: none;
-    transition: color 0.3s;
+    background-color: transparent;
 }
 
-.tab-button.active {
-    color: #007bff;
-    font-weight: bold;
+.notification-icon {
+    margin-left: 5px; /* Reduced margin to move closer to search */
+    display: flex;
+    align-items: center; /* Ensure vertical alignment */
 }
 
-.tab-button:focus {
-    outline: none;
+.notification-icon img {
+    width: 24px;
+    height: 24px;
+    display: block; /* Ensure the icon is displayed */
 }
 
-.tab-content {
+.content {
     flex-grow: 1;
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
+    margin-top: 50px; /* Add margin to account for the fixed top bar */
 }
 
 /* Styling for the bottom navbar */

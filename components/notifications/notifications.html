@@ -10,17 +10,18 @@
 </head>
 <body>
     <div class="notifications-container">
-        <div class="tabs">
-            <button class="tab-button active" onclick="showTab('messages')">Messages</button>
-            <button class="tab-button" onclick="showTab('notifications')">Notifications</button>
-        </div>
-        <div id="messages" class="tab-content active">
+        <header class="top-bar">
+            <img src="../../assets/menu.png" alt="Menu Icon" class="menu-icon">
+            <input type="text" id="search-input" placeholder="Search" onkeyup="filterContacts()">
+            <div class="notification-icon">
+                <a href="tab-notifications/tab-notifications.html">
+                    <img src="../../assets/notification.png" alt="Notifications">
+                </a>
+            </div>
+        </header>
+        <div id="messages" class="content">
             <!-- Messages content will be loaded here -->
             <object type="text/html" data="tab-messages/tab-messages.html" width="100%" height="100%"></object>
-        </div>
-        <div id="notifications" class="tab-content">
-            <!-- Notifications content will be loaded here -->
-            <object type="text/html" data="tab-notifications/tab-notifications.html" width="100%" height="100%"></object>
         </div>
     </div>
 
