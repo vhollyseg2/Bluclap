@@ -7,7 +7,7 @@
 
 .top-bar {
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
     padding: 10px;
     background-color: #fff;
@@ -25,7 +25,7 @@
 }
 
 #search-input {
-    width: 50%; /* Reduced width */
+    flex-grow: 1;  /* Allow the search input to grow */
     max-width: 300px; /* Set a maximum width */
     height: 20px; /* Reduced height */
     padding: 3px 5px; /* Reduced padding */
@@ -34,6 +34,7 @@
     border-radius: 15px;
     outline: none;
     background-color: transparent;
+    margin: 0 10px; /* Add horizontal margin for spacing */
 }
 
 .notification-icon {
