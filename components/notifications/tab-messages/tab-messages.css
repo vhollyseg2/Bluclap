@@ -27,8 +27,8 @@
 }
 
 .contact img {
-    width: 50px; /* Increased image size */
-    height: 50px; /* Increased image size */
+    width: 60px; /* Increase image size */
+    height: 60px; /* Increase image size */
     border-radius: 50%;
     margin-right: 15px; /* Increased margin for better spacing */
 }
@@ -64,6 +64,8 @@
     padding: 20px;
     overflow-y: auto;
     position: relative; /* Ensure the chat area is positioned relative */
+    margin-top: 80px; /* Add margin to compensate for fixed header */
+    margin-bottom: 60px; /* Add margin to compensate for fixed input */
 }
 
 .chat-header {
@@ -77,13 +79,12 @@
     right: 0; /* Adjust to end at the right */
     background-color: #fff; /* Add background color to header */
     z-index: 1000; /* Ensure the header is above other content */
-    padding-bottom: 10px; /* Add padding for spacing */
-    padding-top: 10px; /* Add padding for spacing */
+    padding: 10px; /* Add padding for spacing */
 }
 
 .chat-header img {
-    width: 30px; /* Further reduce the size */
-    height: 30px; /* Further reduce the size */
+    width: 40px; /* Increase the size */
+    height: 40px; /* Increase the size */
     border-radius: 50%;
     margin-bottom: 10px; /* Space between image and name */
 }
@@ -97,7 +98,8 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    margin-top: 100px; /* Add margin to compensate for fixed header */
+    overflow-y: auto; /* Enable scrolling only when there are more messages */
+    max-height: calc(100vh - 160px); /* Ensure chat messages do not scroll unless necessary */
 }
 
 .message {
@@ -129,32 +131,42 @@
     display: block;
     margin-top: 5px;
     font-size: 12px;
-    color: #888;
+}
+
+.timestamp.sent-time {
+    color: #fff; /* White color for outgoing message timestamps */
+}
+
+.timestamp.received-time {
+    color: #000; /* Black color for incoming message timestamps */
 }
 
 .chat-input {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 5px; /* Reduce padding */
     border-top: 1px solid #ddd;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
     background-color: #fff;
     z-index: 1000; /* Ensure the input area is above other content */
+    padding-bottom: 20px; /* Add padding below the input */
 }
 
 .chat-input input {
     flex-grow: 1;
-    padding: 10px;
+    padding: 5px; /* Reduce padding */
     border: 1px solid #ddd;
     border-radius: 20px;
     outline: none;
+    font-size: 16px; /* Ensure font size is large enough to prevent zoom */
 }
 
 .chat-input button {
     margin-left: 10px;
-    padding: 10px 20px;
+    padding: 5px 15px; /* Reduce padding */
     background-color: #007bff;
     color: #fff;
     border: none;
