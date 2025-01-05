@@ -1,92 +1,83 @@
-/* Styling for the notifications container and top bar */
 .notifications-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .top-bar {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    position: fixed; /* Make the top bar fixed */
-    width: 100%;
-    top: 0;
-    z-index: 1000; /* Ensure it stays on top */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
 .menu-icon {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 #search-input {
-    flex-grow: 1;  /* Allow the search input to grow */
-    max-width: 300px; /* Set a maximum width */
-    height: 20px; /* Reduced height */
-    padding: 3px 5px; /* Reduced padding */
-    font-size: 12px; /* Adjusted font size */
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    outline: none;
-    background-color: transparent;
-    margin: 0 10px; /* Add horizontal margin for spacing */
-}
-
-.notification-icon {
-    margin-left: 5px; /* Reduced margin to move closer to search */
-    display: flex;
-    align-items: center; /* Ensure vertical alignment */
+  width: 80%;
+  max-width: 400px;
+  height: 20px;
+  padding: 3px 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  background-color: transparent;
 }
 
 .notification-icon img {
-    width: 24px;
-    height: 24px;
-    display: block; /* Ensure the icon is displayed */
+  width: 24px;
+  height: 24px;
 }
 
 .content {
-    flex-grow: 1;
-    margin-top: 50px; /* Add margin to account for the fixed top bar */
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
-/* Styling for the bottom navbar */
 .bottom-navbar {
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .bottom-navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
 }
 
 .bottom-navbar li {
-    text-align: center;
+  text-align: center;
 }
 
 .bottom-navbar a {
-    color: #000; /* Change link color to black */
-    text-decoration: none; /* Remove underline from links */
+  color: #000;
+  text-decoration: none;
 }
 
 .bottom-navbar img {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .bottom-navbar span {
-    display: block;
-    font-size: 12px;
-    margin-top: 5px;
+  display: block;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.hidden {
+  display: none !important;
 }

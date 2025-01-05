@@ -32,6 +32,24 @@ function loadChat(contactName) {
 
   // Optionally, you can hide the contacts list for a more focused chat view
   document.getElementById('contacts-list').style.display = 'none';
+
+  // Hide the navbar and top bar
+  parent.document.querySelector('.bottom-navbar').classList.add('hidden');
+  parent.document.querySelector('.top-bar').classList.add('hidden');
+
+  // Add event listeners to handle keyboard events
+  const chatInput = document.querySelector('.chat-input');
+  const inputField = chatInput.querySelector('input');
+
+  inputField.addEventListener('focus', () => {
+    setTimeout(() => {
+      chatInput.style.bottom = `${window.innerHeight - inputField.getBoundingClientRect().bottom}px`;
+    }, 300); // Delay to allow keyboard to open
+  });
+
+  inputField.addEventListener('blur', () => {
+    chatInput.style.bottom = '0';
+  });
 }
 
 function filterContacts() {
