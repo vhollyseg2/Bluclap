@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Chat</title>
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <button class="back-button" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="chat-contact">
+                    <div class="contact-avatar">
+                        <img src="#" alt="Contact" id="contact-avatar">
+                        <span class="active-status" id="active-status"></span>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-name" id="contact-name"></span>
+                        <span class="contact-status" id="contact-status">Active now</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button class="icon-button">
+                    <i class="fas fa-phone"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be dynamically inserted here -->
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <button class="icon-button">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="far fa-image"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="far fa-smile"></i>
+                </button>
+                <input type="text" placeholder="Aa" id="message-input">
+                <button class="icon-button send-button" id="send-button">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>

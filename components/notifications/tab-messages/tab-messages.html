@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Messenger</title>
+    <link rel="stylesheet" href="../../../components/navbar.css">
     <link rel="stylesheet" href="tab-messages.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -28,7 +29,7 @@
                 </div>
             </div>
 
-            <!-- Filters -->
+            <!-- Message Filters -->
             <div class="message-filters">
                 <button class="filter-button active">Inbox</button>
                 <button class="filter-button">Communities</button>
@@ -71,7 +72,6 @@
                     </div>
                 </div>
 
-                <!-- More contacts with different states -->
                 <div class="contact" onclick="loadChat('Alice Johnson')">
                     <div class="contact-avatar">
                         <img src="../../assets/profile.png" alt="Alice Johnson">
@@ -89,17 +89,24 @@
                 </div>
             </div>
         </div>
-
-        <!-- Chat Area -->
-        <div id="chat-area" class="chat-area-container">
-            <!-- Initial state - will be populated by JavaScript -->
-            <div class="select-chat-prompt">
-                <i class="far fa-comment-dots"></i>
-                <h2>Select a chat to start messaging</h2>
-            </div>
-        </div>
     </div>
-
+    <!---->
+    <div id="bottom-navbar-container"></div>
     <script src="tab-messages.js"></script>
+    <script>
+  // Add this to load the navbar
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('../../../components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('bottom-navbar-container').innerHTML = data;
+        // After loading navbar HTML, load its JavaScript
+        const navbarScript = document.createElement('script');
+        navbarScript.src = '../../../components/navbar.js';
+        document.body.appendChild(navbarScript);
+      })
+      .catch(error => console.error('Error loading navbar:', error));
+  });
+</script>
 </body>
 </html>

@@ -10,7 +10,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #fff;
     color: #050505;
-    overflow: hidden;
 }
 
 /* Main Container */
@@ -23,8 +22,7 @@ body {
 
 /* Left Sidebar - Contacts List */
 .contacts-list {
-    width: 360px;
-    border-right: 1px solid #ced0d4;
+    width: 100%; /* Changed from 360px to 100% to take full width */
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -220,111 +218,22 @@ body {
     padding: 0 6px;
 }
 
-/* Chat Area */
-.chat-area-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+/* Scrollbar Styling */
+.contacts-scroll::-webkit-scrollbar {
+    width: 8px;
 }
 
-.select-chat-prompt {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #65676b;
+.contacts-scroll::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.select-chat-prompt i {
-    font-size: 48px;
-    margin-bottom: 16px;
+.contacts-scroll::-webkit-scrollbar-thumb {
+    background: #bcc0c4;
+    border-radius: 4px;
 }
 
-.select-chat-prompt h2 {
-    font-size: 20px;
-    font-weight: normal;
-}
-
-/* Chat Messages Area */
-.chat-messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #fff;
-}
-
-.message {
-    max-width: 60%;
-    margin-bottom: 12px;
-    display: flex;
-    flex-direction: column;
-}
-
-.message p {
-    margin: 0;
-    padding: 8px 12px;
-    border-radius: 18px;
-    font-size: 15px;
-    line-height: 1.4;
-}
-
-.message.sent {
-    align-self: flex-end;
-}
-
-.message.sent p {
-    background-color: #0084ff;
-    color: white;
-}
-
-.message.received {
-    align-self: flex-start;
-}
-
-.message.received p {
-    background-color: #f0f2f5;
-    color: #050505;
-}
-
-.timestamp {
-    font-size: 11px;
-    color: #65676b;
-    margin-top: 4px;
-    align-self: flex-start;
-}
-
-.message.sent .timestamp {
-    align-self: flex-end;
-}
-
-/* Chat Input Area */
-.chat-input {
-    padding: 16px;
-    border-top: 1px solid #ced0d4;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fff;
-}
-
-.chat-input i {
-    font-size: 20px;
-    color: #65676b;
-    cursor: pointer;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 20px;
-    background: #f0f2f5;
-    font-size: 15px;
-}
-
-.chat-input input:focus {
-    outline: none;
+.contacts-scroll::-webkit-scrollbar-thumb:hover {
+    background: #9ca0a4;
 }
 
 /* Mobile Responsiveness */
@@ -332,14 +241,17 @@ body {
     .contacts-list {
         width: 100%;
     }
-    
-    .chat-area-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1000;
-        background: #fff;
-    }
+}
+
+/* Add at the end of your existing CSS */
+.contacts-container {
+    padding-bottom: 60px; /* Adjust this value based on your navbar height */
+}
+
+#bottom-navbar-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }

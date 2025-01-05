@@ -6,6 +6,7 @@
     background-color: white;
     color: black;
     display: flex;
+    padding
     justify-content: space-around;
     height: 60px;  /* Increased fixed height */
     max-height: 60px;  /* Set maximum height */
@@ -47,7 +48,7 @@
 .bottom-navbar ul li a img {
     width: 24px;
     height: 24px;
-    margin-bottom: 0.2rem;  /* Adjusted margin below the icon */
+    margin-bottom: 0.5rem;  /* Adjusted margin below the icon */
 }
 
 .bottom-navbar ul li a span {

@@ -1,11 +1,48 @@
-// Utility function for formatting dates
-const formatTime = (date) => {
-  const now = new Date();
-  const messageDate = new Date(date);
+// Constants and Configuration
+const CURRENT_UTC = new Date('2025-01-05T21:46:08Z');
+const CURRENT_USER = {
+  login: 'vhollyseg2',
+  avatar: '#'
+};
 
-  // If same day
-  if (messageDate.toDateString() === now.toDateString()) {
-    return messageDate.toLocaleTimeString('en-US', {
+// Sample contacts data with proper timestamps
+const contacts = [
+  {
+    name: "John Doe",
+    lastMessage: "Hello, how are you?",
+    time: new Date('2025-01-05T21:40:08Z'), // 6 minutes ago
+    avatar: "#",
+    isActive: true,
+    unreadCount: 2,
+    lastMessageSender: "you"
+    },
+  {
+    name: "Sarah Smith",
+    lastMessage: "See you tomorrow! 👋",
+    time: new Date('2025-01-04T21:46:08Z'), // Yesterday
+    avatar: "#",
+    isActive: false,
+    unreadCount: 0,
+    lastMessageSender: "them"
+    },
+  {
+    name: "Mike Johnson",
+    lastMessage: "Thanks for your help!",
+    time: new Date('2025-01-03T21:46:08Z'), // 2 days ago
+    avatar: "#",
+    isActive: true,
+    unreadCount: 1,
+    lastMessageSender: "them"
+    }
+];
+
+// Format time for contact list
+function formatTime(date) {
+  const diff = CURRENT_UTC - date;
+
+  // If less than 24 hours
+  if (diff < 24 * 60 * 60 * 1000) {
+    return date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
@@ -13,185 +50,125 @@ const formatTime = (date) => {
   }
 
   // If yesterday
-  const yesterday = new Date(now);
+  const yesterday = new Date(CURRENT_UTC);
   yesterday.setDate(yesterday.getDate() - 1);
-  if (messageDate.toDateString() === yesterday.toDateString()) {
+  if (date.toDateString() === yesterday.toDateString()) {
     return 'Yesterday';
   }
 
   // If within a week
-  if (now - messageDate < 7 * 24 * 60 * 60 * 1000) {
-    return messageDate.toLocaleDateString('en-US', { weekday: 'short' });
+  if (diff < 7 * 24 * 60 * 60 * 1000) {
+    return `${Math.ceil(diff / (24 * 60 * 60 * 1000))}d`;
   }
 
-  // Otherwise return date
-  return messageDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
+  // Otherwise show date
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
 
-// Current user info
-const currentUser = {
-  login: 'vhollyseg2',
-  avatar: '../../assets/profile.png'
-};
+// Handle contact click and open chat
+function openChat(contact) {
+  // Create URL with contact information
+  const chatURL = `chat/chat.html?contact=${encodeURIComponent(contact.name)}` +
+    `&avatar=${encodeURIComponent(contact.avatar)}` +
+    `&active=${contact.isActive}`;
 
-function loadChat(contactName) {
-  const chatArea = document.getElementById('chat-area');
+  // Store current contact info in sessionStorage
+  sessionStorage.setItem('currentChat', JSON.stringify(contact));
 
-  const chatContent = `
-        <div class="chat-area">
-            <!-- Chat Header -->
-            <div class="chat-header">
-                <div class="chat-header-left">
-                    <button class="icon-button back-button" onclick="showContactsList()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <img src="../../assets/profile.png" alt="${contactName}">
-                    <div class="chat-header-info">
-                        <span class="chat-name">${contactName}</span>
-                        <span class="active-status-text">Active now</span>
-                    </div>
-                </div>
-                <div class="chat-header-actions">
-                    <button class="icon-button">
-                        <i class="fas fa-phone"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i class="fas fa-video"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                </div>
+  // Open chat in the same window
+  window.location.href = chatURL;
+}
+
+// Update contact list UI
+function updateContactsList() {
+  const contactsContainer = document.querySelector('.contacts-scroll');
+  contactsContainer.innerHTML = ''; // Clear existing contacts
+
+  contacts.forEach(contact => {
+    const contactElement = document.createElement('div');
+    contactElement.className = 'contact';
+    contactElement.onclick = () => openChat(contact);
+
+    contactElement.innerHTML = `
+            <div class="contact-avatar">
+                <img src="${contact.avatar}" alt="${contact.name}">
+                ${contact.isActive ? '<span class="active-status"></span>' : ''}
             </div>
-
-            <!-- Chat Messages -->
-            <div class="chat-messages" id="chat-messages">
-                <div class="message received">
-                    <p>Hey there! 👋</p>
-                    <span class="timestamp">${formatTime(new Date(Date.now() - 3600000))}</span>
+            <div class="contact-info">
+                <div class="contact-header">
+                    <span class="contact-name">${contact.name}</span>
+                    <span class="contact-time">${formatTime(contact.time)}</span>
                 </div>
-                <div class="message sent">
-                    <p>Hi! How are you?</p>
-                    <span class="timestamp">${formatTime(new Date())}</span>
+                <div class="message-preview">
+                    <span class="contact-last-message">
+                        ${contact.lastMessageSender === 'you' ? 
+                          `<span class="message-status"><i class="fas fa-check-circle"></i></span>You: ` : 
+                          ''}${contact.lastMessage}
+                    </span>
+                    ${contact.unreadCount > 0 ? 
+                      `<span class="unread-badge">${contact.unreadCount}</span>` : 
+                      ''}
                 </div>
-            </div>
-
-            <!-- Chat Input -->
-            <div class="chat-input">
-                <button class="icon-button">
-                    <i class="fas fa-plus-circle"></i>
-                </button>
-                <button class="icon-button">
-                    <i class="far fa-image"></i>
-                </button>
-                <button class="icon-button">
-                    <i class="fas fa-sticker-mule"></i>
-                </button>
-                <input type="text" placeholder="Aa" id="message-input">
-                <button class="icon-button">
-                    <i class="fas fa-thumbs-up"></i>
-                </button>
-            </div>
-        </div>
-    `;
-
-  chatArea.innerHTML = chatContent;
-
-  // Add message input handlers
-  const input = document.getElementById('message-input');
-  const messages = document.getElementById('chat-messages');
-
-  // Function to add a new message
-  function addMessage(text, isSent = true) {
-    const messageHTML = `
-            <div class="message ${isSent ? 'sent' : 'received'}">
-                <p>${text}</p>
-                <span class="timestamp">${formatTime(new Date())}</span>
             </div>
         `;
-    messages.insertAdjacentHTML('beforeend', messageHTML);
-    messages.scrollTop = messages.scrollHeight;
-  }
 
-  // Handle input events
-  input.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && this.value.trim()) {
-      addMessage(this.value.trim());
-      this.value = '';
-
-      // Simulate received message after a delay
-      setTimeout(() => {
-        addMessage('Sure, I\'ll get back to you soon! 👍', false);
-      }, 1000);
-    }
-  });
-
-  // Handle thumbs up button
-  const thumbsUp = chatArea.querySelector('.fa-thumbs-up').parentElement;
-  thumbsUp.addEventListener('click', () => {
-    addMessage('👍');
-  });
-
-  // Mobile view handling
-  if (window.innerWidth <= 768) {
-    document.getElementById('contacts-list').style.display = 'none';
-    chatArea.style.display = 'block';
-  }
-
-  // Scroll to bottom of messages
-  messages.scrollTop = messages.scrollHeight;
-}
-
-// Function to show contacts list (mobile view)
-function showContactsList() {
-  if (window.innerWidth <= 768) {
-    document.getElementById('contacts-list').style.display = 'block';
-    document.getElementById('chat-area').style.display = 'none';
-  }
-}
-
-// Filter contacts
-function filterContacts() {
-  const input = document.querySelector('.search-wrapper input');
-  const filter = input.value.toLowerCase();
-  const contacts = document.getElementsByClassName('contact');
-
-  Array.from(contacts).forEach(contact => {
-    const name = contact.querySelector('.contact-name').textContent;
-    const message = contact.querySelector('.contact-last-message').textContent;
-    if (name.toLowerCase().includes(filter) || message.toLowerCase().includes(filter)) {
-      contact.style.display = '';
-    } else {
-      contact.style.display = 'none';
-    }
+    contactsContainer.appendChild(contactElement);
   });
 }
 
-// Initialize search functionality
-document.addEventListener('DOMContentLoaded', () => {
+// Search functionality
+function setupSearch() {
   const searchInput = document.querySelector('.search-wrapper input');
-  searchInput.addEventListener('input', filterContacts);
+  searchInput.addEventListener('input', () => {
+    const searchText = searchInput.value.toLowerCase();
+    const contactElements = document.querySelectorAll('.contact');
 
-  // Handle filter buttons
+    contactElements.forEach(contactElement => {
+      const name = contactElement.querySelector('.contact-name').textContent.toLowerCase();
+      const lastMessage = contactElement.querySelector('.contact-last-message').textContent.toLowerCase();
+
+      if (name.includes(searchText) || lastMessage.includes(searchText)) {
+        contactElement.style.display = '';
+      } else {
+        contactElement.style.display = 'none';
+      }
+    });
+  });
+}
+
+// Filter buttons functionality
+function setupFilters() {
   const filterButtons = document.querySelectorAll('.filter-button');
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       filterButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
+
+      // Add filter logic here if needed
+      if (button.textContent === 'Communities') {
+        // Handle communities filter
+      } else {
+        // Handle inbox filter
+      }
     });
   });
+}
+
+// Initialize the contacts list
+document.addEventListener('DOMContentLoaded', () => {
+  updateContactsList();
+  setupSearch();
+  setupFilters();
+
+  // Check if returning from chat
+  const returnedFromChat = sessionStorage.getItem('returnedFromChat');
+  if (returnedFromChat) {
+    // Handle any necessary UI updates after returning from chat
+    sessionStorage.removeItem('returnedFromChat');
+  }
 });
 
-// Handle typing indicator
-function showTypingIndicator(contactName) {
-  const contact = Array.from(document.getElementsByClassName('contact'))
-    .find(el => el.querySelector('.contact-name').textContent === contactName);
-
-  if (contact) {
-    const messagePreview = contact.querySelector('.contact-last-message');
-    messagePreview.textContent = 'Typing...';
-    setTimeout(() => {
-      messagePreview.textContent = 'Last message';
-    }, 2000);
-  }
-}
+// Handle back navigation
+window.addEventListener('popstate', () => {
+  sessionStorage.setItem('returnedFromChat', 'true');
+});
