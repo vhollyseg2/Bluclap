@@ -3,31 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Messages</title>
+    <title>Messenger</title>
     <link rel="stylesheet" href="tab-messages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="messages-container">
+        <!-- Left Sidebar -->
         <div class="contacts-list" id="contacts-list">
-            <div class="contact" onclick="loadChat('John Doe')">
-                <img src="../../assets/profile.png" alt="Profile Image">
-                <div class="contact-info">
-                    <span class="contact-name">John Doe</span>
-                    <span class="contact-last-message">Hello, how are you?</span>
+            <!-- Header -->
+            <div class="contacts-header">
+                <h1>Chats</h1>
+                <div class="header-actions">
+                    <button class="icon-button"><i class="fas fa-ellipsis-h"></i></button>
+                    <button class="icon-button"><i class="fas fa-edit"></i></button>
                 </div>
-                <span class="contact-time">10:30 AM</span>
             </div>
-            <div class="contact" onclick="loadChat('Jane Smith')">
-                <img src="../../assets/profile.png" alt="Profile Image">
-                <div class="contact-info">
-                    <span class="contact-name">Jane Smith</span>
-                    <span class="contact-last-message">Are we meeting today?</span>
+
+            <!-- Search bar -->
+            <div class="search-bar">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search in Messenger">
                 </div>
-                <span class="contact-time">9:45 AM</span>
             </div>
-            <!-- Add more contacts as needed -->
+
+            <!-- Filters -->
+            <div class="message-filters">
+                <button class="filter-button active">Inbox</button>
+                <button class="filter-button">Communities</button>
+            </div>
+
+            <!-- Contacts -->
+            <div class="contacts-scroll">
+                <div class="contact" onclick="loadChat('John Doe')">
+                    <div class="contact-avatar">
+                        <img src="../../assets/profile.png" alt="John Doe">
+                        <span class="active-status"></span>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-header">
+                            <span class="contact-name">John Doe</span>
+                            <span class="contact-time">10:30 AM</span>
+                        </div>
+                        <div class="message-preview">
+                            <span class="contact-last-message">
+                                <span class="message-status"><i class="fas fa-check-circle"></i></span>
+                                You: Hello, how are you?
+                            </span>
+                            <span class="unread-badge">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact" onclick="loadChat('Jane Smith')">
+                    <div class="contact-avatar">
+                        <img src="../../assets/profile.png" alt="Jane Smith">
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-header">
+                            <span class="contact-name">Jane Smith</span>
+                            <span class="contact-time">Yesterday</span>
+                        </div>
+                        <div class="message-preview">
+                            <span class="contact-last-message">See you tomorrow! 👋</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More contacts with different states -->
+                <div class="contact" onclick="loadChat('Alice Johnson')">
+                    <div class="contact-avatar">
+                        <img src="../../assets/profile.png" alt="Alice Johnson">
+                        <span class="active-status"></span>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-header">
+                            <span class="contact-name">Alice Johnson</span>
+                            <span class="contact-time">2d</span>
+                        </div>
+                        <div class="message-preview">
+                            <span class="contact-last-message">Typing...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="chat-area"></div>
+
+        <!-- Chat Area -->
+        <div id="chat-area" class="chat-area-container">
+            <!-- Initial state - will be populated by JavaScript -->
+            <div class="select-chat-prompt">
+                <i class="far fa-comment-dots"></i>
+                <h2>Select a chat to start messaging</h2>
+            </div>
+        </div>
     </div>
 
     <script src="tab-messages.js"></script>

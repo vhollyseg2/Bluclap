@@ -1,72 +1,197 @@
-function loadChat(contactName) {
-  // Fetch the chat area element
-  var chatArea = document.getElementById('chat-area');
+// Utility function for formatting dates
+const formatTime = (date) => {
+  const now = new Date();
+  const messageDate = new Date(date);
 
-  // Load the chat content dynamically (for simplicity, using static HTML here)
-  var chatContent = `
+  // If same day
+  if (messageDate.toDateString() === now.toDateString()) {
+    return messageDate.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+
+  // If yesterday
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (messageDate.toDateString() === yesterday.toDateString()) {
+    return 'Yesterday';
+  }
+
+  // If within a week
+  if (now - messageDate < 7 * 24 * 60 * 60 * 1000) {
+    return messageDate.toLocaleDateString('en-US', { weekday: 'short' });
+  }
+
+  // Otherwise return date
+  return messageDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
+
+// Current user info
+const currentUser = {
+  login: 'vhollyseg2',
+  avatar: '../../assets/profile.png'
+};
+
+function loadChat(contactName) {
+  const chatArea = document.getElementById('chat-area');
+
+  const chatContent = `
         <div class="chat-area">
+            <!-- Chat Header -->
             <div class="chat-header">
-                <img src="../../assets/profile.png" alt="Profile Image">
-                <span class="chat-name">${contactName}</span>
+                <div class="chat-header-left">
+                    <button class="icon-button back-button" onclick="showContactsList()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <img src="../../assets/profile.png" alt="${contactName}">
+                    <div class="chat-header-info">
+                        <span class="chat-name">${contactName}</span>
+                        <span class="active-status-text">Active now</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="icon-button">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
             </div>
-            <div class="chat-messages">
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chat-messages">
                 <div class="message received">
-                    <p>Hello, how are you?</p>
-                    <span class="timestamp received-time">10:30 AM</span>
+                    <p>Hey there! 👋</p>
+                    <span class="timestamp">${formatTime(new Date(Date.now() - 3600000))}</span>
                 </div>
                 <div class="message sent">
-                    <p>I'm good, thank you! How about you?</p>
-                    <span class="timestamp sent-time">10:32 AM</span>
+                    <p>Hi! How are you?</p>
+                    <span class="timestamp">${formatTime(new Date())}</span>
                 </div>
-                <!-- Add more messages as needed -->
             </div>
+
+            <!-- Chat Input -->
             <div class="chat-input">
-                <input type="text" placeholder="Type a message...">
-                <button>Send</button>
+                <button class="icon-button">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="far fa-image"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="fas fa-sticker-mule"></i>
+                </button>
+                <input type="text" placeholder="Aa" id="message-input">
+                <button class="icon-button">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
             </div>
         </div>
     `;
 
-  // Insert the chat content into the chat area
   chatArea.innerHTML = chatContent;
 
-  // Optionally, you can hide the contacts list for a more focused chat view
-  document.getElementById('contacts-list').style.display = 'none';
+  // Add message input handlers
+  const input = document.getElementById('message-input');
+  const messages = document.getElementById('chat-messages');
 
-  // Hide the navbar and top bar
-  parent.document.querySelector('.bottom-navbar').classList.add('hidden');
-  parent.document.querySelector('.top-bar').classList.add('hidden');
+  // Function to add a new message
+  function addMessage(text, isSent = true) {
+    const messageHTML = `
+            <div class="message ${isSent ? 'sent' : 'received'}">
+                <p>${text}</p>
+                <span class="timestamp">${formatTime(new Date())}</span>
+            </div>
+        `;
+    messages.insertAdjacentHTML('beforeend', messageHTML);
+    messages.scrollTop = messages.scrollHeight;
+  }
 
-  // Add event listeners to handle keyboard events
-  const chatInput = document.querySelector('.chat-input');
-  const inputField = chatInput.querySelector('input');
-  const chatMessages = document.querySelector('.chat-messages');
+  // Handle input events
+  input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      addMessage(this.value.trim());
+      this.value = '';
 
-  inputField.addEventListener('focus', () => {
-    setTimeout(() => {
-      chatInput.style.bottom = `${window.innerHeight - inputField.getBoundingClientRect().bottom}px`;
-      chatMessages.scrollTop = chatMessages.scrollHeight; // Keep the recent message in view
-    }, 300); // Delay to allow keyboard to open
+      // Simulate received message after a delay
+      setTimeout(() => {
+        addMessage('Sure, I\'ll get back to you soon! 👍', false);
+      }, 1000);
+    }
   });
 
-  inputField.addEventListener('blur', () => {
-    chatInput.style.bottom = '0';
+  // Handle thumbs up button
+  const thumbsUp = chatArea.querySelector('.fa-thumbs-up').parentElement;
+  thumbsUp.addEventListener('click', () => {
+    addMessage('👍');
+  });
+
+  // Mobile view handling
+  if (window.innerWidth <= 768) {
+    document.getElementById('contacts-list').style.display = 'none';
+    chatArea.style.display = 'block';
+  }
+
+  // Scroll to bottom of messages
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// Function to show contacts list (mobile view)
+function showContactsList() {
+  if (window.innerWidth <= 768) {
+    document.getElementById('contacts-list').style.display = 'block';
+    document.getElementById('chat-area').style.display = 'none';
+  }
+}
+
+// Filter contacts
+function filterContacts() {
+  const input = document.querySelector('.search-wrapper input');
+  const filter = input.value.toLowerCase();
+  const contacts = document.getElementsByClassName('contact');
+
+  Array.from(contacts).forEach(contact => {
+    const name = contact.querySelector('.contact-name').textContent;
+    const message = contact.querySelector('.contact-last-message').textContent;
+    if (name.toLowerCase().includes(filter) || message.toLowerCase().includes(filter)) {
+      contact.style.display = '';
+    } else {
+      contact.style.display = 'none';
+    }
   });
 }
 
-function filterContacts() {
-  var input, filter, contacts, contact, i, txtValue;
-  input = document.getElementById('search-input');
-  filter = input.value.toLowerCase();
-  contacts = document.getElementsByClassName('contact');
+// Initialize search functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('.search-wrapper input');
+  searchInput.addEventListener('input', filterContacts);
 
-  for (i = 0; i < contacts.length; i++) {
-    contact = contacts[i];
-    txtValue = contact.textContent || contact.innerText;
-    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-      contact.style.display = "";
-    } else {
-      contact.style.display = "none";
-    }
+  // Handle filter buttons
+  const filterButtons = document.querySelectorAll('.filter-button');
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+});
+
+// Handle typing indicator
+function showTypingIndicator(contactName) {
+  const contact = Array.from(document.getElementsByClassName('contact'))
+    .find(el => el.querySelector('.contact-name').textContent === contactName);
+
+  if (contact) {
+    const messagePreview = contact.querySelector('.contact-last-message');
+    messagePreview.textContent = 'Typing...';
+    setTimeout(() => {
+      messagePreview.textContent = 'Last message';
+    }, 2000);
   }
 }
