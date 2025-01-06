@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Messenger</title>
+    <title>Inbox</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="tab-messages.css">
     <link rel="stylesheet" href="../../../components/navbar.css">
@@ -14,7 +14,7 @@
         <div class="contacts-list" id="contacts-list">
             <!-- Header -->
             <div class="contacts-header">
-                <h1>Chats</h1>
+                <h1>Updates</h1>
                 <div class="header-actions">
                     <button class="icon-button"><i class="fas fa-ellipsis-h"></i></button>
                 </div>
@@ -96,7 +96,6 @@
     <!-- Scripts -->
     <script src="tab-messages.js"></script>
     <script>
-        // Navbar initialization with proper error handling
         document.addEventListener('DOMContentLoaded', function() {
             fetch('../../../components/navbar.html')
                 .then(response => {
@@ -107,7 +106,6 @@
                 })
                 .then(data => {
                     document.getElementById('bottom-navbar-container').innerHTML = data;
-                    // Load navbar script
                     const navbarScript = document.createElement('script');
                     navbarScript.src = '../../../components/navbar.js';
                     navbarScript.onerror = () => console.error('Failed to load navbar script');
