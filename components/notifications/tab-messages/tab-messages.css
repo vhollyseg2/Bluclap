@@ -12,8 +12,6 @@ body {
     color: #050505;
     height: 100vh;
     overflow: hidden;
-    position: fixed;
-    width: 100%;
 }
 
 /* Main Container */
@@ -42,7 +40,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ced0d4;
     background: #fff;
     position: sticky;
     top: 0;
@@ -364,28 +361,5 @@ body {
     #bottom-navbar-container {
         background: #000;
         box-shadow: 0 -1px 4px rgba(255, 255, 255, 0.1);
-    }
-}
-
-/* Loading Animation */
-@keyframes shimmer {
-    0% { background-position: -468px 0 }
-    100% { background-position: 468px 0 }
-}
-
-.loading {
-    animation: shimmer 1s linear infinite;
-    background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
-    background-size: 800px 104px;
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) {
-    .contact:hover {
-        background-color: transparent;
-    }
-
-    .contact:active {
-        background-color: #f0f2f5;
     }
 }
