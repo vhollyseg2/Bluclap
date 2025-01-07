@@ -1,23 +1,14 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+import { auth, db } from './firebase.js';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
   updateProfile
-} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import firebaseConfig from './config.js';
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+// Initialize providers
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
@@ -33,14 +24,13 @@ const googleSignup = document.getElementById('googleSignup');
 const facebookSignup = document.getElementById('facebookSignup');
 const togglePassword = document.getElementById('togglePassword');
 const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-
-// Toast Elements
 const toast = document.getElementById('toast');
-const toastMessage = toast.querySelector('.toast-message');
-const toastIcon = toast.querySelector('.toast-icon');
 
 // Show toast message
 function showToast(message, type = 'error') {
+  const toastMessage = toast.querySelector('.toast-message');
+  const toastIcon = toast.querySelector('.toast-icon');
+
   toastMessage.textContent = message;
   toastIcon.className = `toast-icon fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}`;
   toast.classList.add('show');
@@ -50,36 +40,56 @@ function showToast(message, type = 'error') {
   }, 3000);
 }
 
-// Validate password strength
+// Toggle password visibility
+function setupPasswordToggle(inputId, toggleId) {
+  const input = document.getElementById(inputId);
+  const toggle = document.getElementById(toggleId);
+
+  toggle.addEventListener('click', () => {
+    const type = input.type === 'password' ? 'text' : 'password';
+    input.type = type;
+    toggle.querySelector('i').className = `fas fa-${type === 'password' ? 'eye' : 'eye-slash'}`;
+  });
+}
+
+setupPasswordToggle('passwordInput', 'togglePassword');
+setupPasswordToggle('confirmPasswordInput', 'toggleConfirmPassword');
+
+// Validate password
 function validatePassword(password) {
   const minLength = 8;
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumbers = /\d/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasLower = /[a-z]/.test(password);
+  const hasUpper = /[A-Z]/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
   if (password.length < minLength) {
     return 'Password must be at least 8 characters long';
   }
-  if (!hasUpperCase || !hasLowerCase) {
-    return 'Password must contain both uppercase and lowercase letters';
-  }
-  if (!hasNumbers) {
+  if (!hasNumber) {
     return 'Password must contain at least one number';
   }
-  if (!hasSpecialChar) {
+  if (!hasLower || !hasUpper) {
+    return 'Password must contain both uppercase and lowercase letters';
+  }
+  if (!hasSpecial) {
     return 'Password must contain at least one special character';
   }
   return '';
 }
 
 // Create user profile in Firestore
-async function createUserProfile(userId, userData) {
+async function createUserProfile(user, username) {
   try {
-    await setDoc(doc(db, 'users', userId), {
-      ...userData,
+    const userRef = doc(db, 'users', user.uid);
+    await setDoc(userRef, {
+      username: username,
+      email: user.email,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      photoURL: user.photoURL || '',
+      bio: '',
+      followers: 0,
+      following: 0
     });
   } catch (error) {
     console.error('Error creating user profile:', error);
@@ -87,38 +97,22 @@ async function createUserProfile(userId, userData) {
   }
 }
 
-// Toggle password visibility
-[togglePassword, toggleConfirmPassword].forEach(toggle => {
-  toggle.addEventListener('click', (e) => {
-    const input = e.currentTarget.parentElement.querySelector('input');
-    const type = input.type === 'password' ? 'text' : 'password';
-    input.type = type;
-    e.currentTarget.querySelector('i').className = `fas fa-${type === 'password' ? 'eye' : 'eye-slash'}`;
-  });
-});
-
 // Handle form submission
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // Get form values
   const username = usernameInput.value.trim();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
   // Reset error messages
-  document.querySelectorAll('.error-message').forEach(error => error.style.display = 'none');
+  document.querySelectorAll('.error-message').forEach(elem => elem.style.display = 'none');
 
-  // Validate form
-  if (!username || !email || !password || !confirmPassword) {
-    showToast('Please fill in all fields');
-    return;
-  }
-
-  if (username.length < 3) {
-    document.getElementById('usernameError').textContent = 'Username must be at least 3 characters long';
-    document.getElementById('usernameError').style.display = 'block';
+  // Validate inputs
+  if (password !== confirmPassword) {
+    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+    document.getElementById('confirmPasswordError').style.display = 'block';
     return;
   }
 
@@ -129,14 +123,8 @@ signupForm.addEventListener('submit', async (e) => {
     return;
   }
 
-  if (password !== confirmPassword) {
-    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
-    document.getElementById('confirmPasswordError').style.display = 'block';
-    return;
-  }
-
   if (!termsCheckbox.checked) {
-    document.getElementById('termsError').textContent = 'You must agree to the Terms of Service';
+    document.getElementById('termsError').textContent = 'You must accept the terms and conditions';
     document.getElementById('termsError').style.display = 'block';
     return;
   }
@@ -156,21 +144,14 @@ signupForm.addEventListener('submit', async (e) => {
     });
 
     // Create user profile in Firestore
-    await createUserProfile(userCredential.user.uid, {
-      username,
-      email,
-      photoURL: null,
-      bio: '',
-      followers: [],
-      following: []
-    });
+    await createUserProfile(userCredential.user, username);
 
     showToast('Account created successfully!', 'success');
 
     // Redirect to home page
     setTimeout(() => {
       window.location.href = '../index.html';
-    }, 1500);
+    }, 1000);
 
   } catch (error) {
     let errorMessage = 'An error occurred during signup';
@@ -188,8 +169,6 @@ signupForm.addEventListener('submit', async (e) => {
       case 'auth/weak-password':
         errorMessage = 'Password is too weak';
         break;
-      default:
-        console.error('Signup error:', error);
     }
 
     showToast(errorMessage);
@@ -201,28 +180,21 @@ signupForm.addEventListener('submit', async (e) => {
   }
 });
 
-// Social Sign Up handlers
+// Social signup handlers
 async function handleSocialSignup(provider, providerName) {
   try {
     const result = await signInWithPopup(auth, provider);
 
-    // Check if this is a new user
+    // Create user profile if it's a new user
     if (result._tokenResponse?.isNewUser) {
-      await createUserProfile(result.user.uid, {
-        username: result.user.displayName || `user_${Math.random().toString(36).slice(2, 8)}`,
-        email: result.user.email,
-        photoURL: result.user.photoURL,
-        bio: '',
-        followers: [],
-        following: []
-      });
+      await createUserProfile(result.user, result.user.displayName || '');
     }
 
     showToast('Account created successfully!', 'success');
 
     setTimeout(() => {
       window.location.href = '../index.html';
-    }, 1500);
+    }, 1000);
   } catch (error) {
     console.error(`${providerName} signup error:`, error);
     showToast(`${providerName} signup failed`);
@@ -234,7 +206,28 @@ facebookSignup.addEventListener('click', () => handleSocialSignup(facebookProvid
 
 // Check if user is already logged in
 auth.onAuthStateChanged((user) => {
-  if (user && !user.isAnonymous) {
+  if (user) {
     window.location.href = '../index.html';
   }
 });
+// Add this after creating the user account in the signup form handler
+// In the try block after createUserWithEmailAndPassword
+
+// Send email verification
+await userCredential.user.sendEmailVerification({
+  url: window.location.origin + '/auth/login.html', // Redirect URL after verification
+  handleCodeInApp: true
+});
+
+// Show success message
+showToast('Account created! Please check your email to verify your account.', 'success');
+
+// Modify the redirect to wait for verification
+if (!userCredential.user.emailVerified) {
+  // Sign out the user and wait for verification
+  await auth.signOut();
+  window.location.href = 'verification-pending.html';
+} else {
+  // If somehow already verified, proceed to home
+  window.location.href = '../index.html';
+}

@@ -1,0 +1,184 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isValidText(text, minLength, maxLength) {
+      return text is string && 
+             text.size() >= minLength && 
+             text.size() <= maxLength;
+    }
+    
+    function isValidTimestamp(timestamp) {
+      return timestamp is timestamp || 
+             (timestamp is string && timestamp.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*Z$'));
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if true; // Public profiles
+      allow create: if isAuthenticated() && 
+                      request.auth.uid == userId && 
+                      validateUserData();
+      allow update: if isOwner(userId) && 
+                      validateUserDataUpdate();
+      allow delete: if isOwner(userId);
+      
+      // Validate user data on creation
+      function validateUserData() {
+        let data = request.resource.data;
+        return data.username is string &&
+               data.username.size() >= 3 &&
+               data.username.size() <= 30 &&
+               data.email is string &&
+               data.email == request.auth.token.email &&
+               isValidTimestamp(data.createdAt) &&
+               data.photoURL is string &&
+               data.bio is string &&
+               data.bio.size() <= 500 &&
+               data.followers is number &&
+               data.followers >= 0 &&
+               data.following is number &&
+               data.following >= 0;
+      }
+      
+      // Validate user data on update
+      function validateUserDataUpdate() {
+        let data = request.resource.data;
+        let oldData = resource.data;
+        return data.email == oldData.email && // Email cannot be changed
+               data.createdAt == oldData.createdAt && // Creation date cannot be changed
+               isValidText(data.username, 3, 30) &&
+               isValidText(data.bio, 0, 500) &&
+               data.photoURL is string &&
+               data.followers >= 0 &&
+               data.following >= 0;
+      }
+    }
+
+    // Posts collection
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && validatePostData();
+      allow update: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid &&
+                      validatePostData();
+      allow delete: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid;
+
+      function validatePostData() {
+        let data = request.resource.data;
+        return data.authorId == request.auth.uid &&
+               isValidText(data.content, 1, 2000) &&
+               isValidTimestamp(data.createdAt) &&
+               data.likes is number &&
+               data.likes >= 0 &&
+               data.comments is number &&
+               data.comments >= 0 &&
+               data.mediaUrls is list &&
+               data.mediaUrls.size() <= 10;
+      }
+    }
+
+    // Comments collection
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && validateCommentData();
+      allow update: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid &&
+                      validateCommentData();
+      allow delete: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid;
+
+      function validateCommentData() {
+        let data = request.resource.data;
+        return data.authorId == request.auth.uid &&
+               isValidText(data.content, 1, 500) &&
+               isValidTimestamp(data.createdAt) &&
+               data.likes is number &&
+               data.likes >= 0 &&
+               data.postId is string;
+      }
+    }
+
+    // Likes collection
+    match /likes/{likeId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && validateLikeData();
+      allow delete: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+
+      function validateLikeData() {
+        let data = request.resource.data;
+        return data.userId == request.auth.uid &&
+               data.postId is string &&
+               isValidTimestamp(data.createdAt);
+      }
+    }
+
+    // Followers collection
+    match /followers/{followId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && validateFollowData();
+      allow delete: if isAuthenticated() && 
+                      (resource.data.followerId == request.auth.uid ||
+                       resource.data.followingId == request.auth.uid);
+
+      function validateFollowData() {
+        let data = request.resource.data;
+        return data.followerId == request.auth.uid &&
+               data.followingId is string &&
+               data.followerId != data.followingId && // Can't follow yourself
+               isValidTimestamp(data.createdAt);
+      }
+    }
+
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && 
+                    resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && validateNotificationData();
+      allow update: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+
+      function validateNotificationData() {
+        let data = request.resource.data;
+        return data.userId is string &&
+               data.type in ['like', 'comment', 'follow'] &&
+               isValidText(data.content, 1, 200) &&
+               isValidTimestamp(data.createdAt) &&
+               data.read is bool &&
+               data.sourceUserId == request.auth.uid;
+      }
+    }
+
+    // Messages collection
+    match /messages/{messageId} {
+      allow read: if isAuthenticated() && 
+                    (resource.data.senderId == request.auth.uid ||
+                     resource.data.receiverId == request.auth.uid);
+      allow create: if isAuthenticated() && validateMessageData();
+      allow update: if false; // Messages cannot be updated
+      allow delete: if isAuthenticated() && 
+                      resource.data.senderId == request.auth.uid;
+
+      function validateMessageData() {
+        let data = request.resource.data;
+        return data.senderId == request.auth.uid &&
+               data.receiverId is string &&
+               isValidText(data.content, 1, 1000) &&
+               isValidTimestamp(data.createdAt) &&
+               data.read is bool;
+      }
+    }
+  }
+}

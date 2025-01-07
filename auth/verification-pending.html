@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email | Bluclap</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <img src="../assets/logo.png" alt="Bluclap" class="logo-img">
+                    <h1>Bluclap</h1>
+                </div>
+                <p class="auth-subtitle">Email Verification Required</p>
+            </div>
+
+            <div class="verification-content">
+                <i class="fas fa-envelope-open-text verification-icon"></i>
+                <h2>Check Your Email</h2>
+                <p>We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.</p>
+                <p class="small">Don't see the email? Check your spam folder.</p>
+                
+                <button id="resendButton" class="auth-button">
+                    <span class="button-text">Resend Verification Email</span>
+                    <div class="button-loader"></div>
+                </button>
+
+                <p class="auth-redirect">
+                    Already verified? <a href="login.html">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+    <script type="module" src="js/verification.js"></script>
+</body>
+</html>
